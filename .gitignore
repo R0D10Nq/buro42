@@ -1,0 +1,9 @@
+.history
+.windsurf
+.next
+node_modules
+.DS_Store
+.env
+*.log
+AGENTS.md
+index-old.html
