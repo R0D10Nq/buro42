@@ -8,6 +8,7 @@ import { Services } from "@/components/sections/Services";
 import { Stats } from "@/components/sections/Stats";
 import { TechStack } from "@/components/sections/TechStack";
 import { CTA } from "@/components/sections/CTA";
+import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <Process />
         <TechStack />
         <CTA />
+        <Footer />
       </main>
     </SmoothScroll>
   );
