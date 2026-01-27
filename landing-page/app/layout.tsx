@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { BackgroundDecor } from "@/components/animations/BackgroundDecor";
 import { CustomCursor } from "@/components/animations/CustomCursor";
 import { PageLoader } from "@/components/animations/PageLoader";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${inter.variable} antialiased`}>
+        <BackgroundDecor />
         <PageLoader />
         {children}
         <CustomCursor />
