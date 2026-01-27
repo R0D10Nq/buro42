@@ -7,6 +7,7 @@ import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
 import { Stats } from "@/components/sections/Stats";
 import { TechStack } from "@/components/sections/TechStack";
+import { CTA } from "@/components/sections/CTA";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Stats />
         <Process />
         <TechStack />
+        <CTA />
       </main>
     </SmoothScroll>
   );
