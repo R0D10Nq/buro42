@@ -82,7 +82,6 @@ export function CustomCursor() {
         className={cn(
           "custom-cursor pointer-events-none fixed left-0 top-0 z-[9999]",
           "h-5 w-5 rounded-full border-2 border-accent mix-blend-difference",
-          "transition-[background-color] duration-200",
           isHover && "bg-accent",
         )}
         style={{ x: smoothX, y: smoothY }}
