@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   motion,
@@ -12,14 +12,12 @@ import {
 import { cn } from "@/lib/utils";
 
 const CURSOR_SIZE = 20;
-const CURSOR_HOVER_SIZE = 60;
 const DOT_SIZE = 6;
 
 export function CustomCursor() {
   const shouldReduceMotion = useReducedMotion();
   const [isEnabled, setIsEnabled] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const offsetRef = useRef(CURSOR_SIZE / 2);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -28,10 +26,6 @@ export function CustomCursor() {
 
   const smoothX = useSpring(cursorX, { stiffness: 300, damping: 30, mass: 0.2 });
   const smoothY = useSpring(cursorY, { stiffness: 300, damping: 30, mass: 0.2 });
-
-  useEffect(() => {
-    offsetRef.current = isHover ? CURSOR_HOVER_SIZE / 2 : CURSOR_SIZE / 2;
-  }, [isHover]);
 
   useEffect(() => {
     if (shouldReduceMotion) {
@@ -47,7 +41,7 @@ export function CustomCursor() {
     document.body.classList.add("cursor-hidden");
 
     const handleMouseMove = (event: MouseEvent) => {
-      const offset = offsetRef.current;
+      const offset = CURSOR_SIZE / 2;
       cursorX.set(event.clientX - offset);
       cursorY.set(event.clientY - offset);
       dotX.set(event.clientX - DOT_SIZE / 2);
@@ -88,10 +82,12 @@ export function CustomCursor() {
         className={cn(
           "custom-cursor pointer-events-none fixed left-0 top-0 z-[9999]",
           "h-5 w-5 rounded-full border-2 border-accent mix-blend-difference",
-          "transition-[width,height,border-radius,background-color] duration-200",
-          isHover && "h-[60px] w-[60px] bg-accent",
+          "transition-[background-color] duration-200",
+          isHover && "bg-accent",
         )}
         style={{ x: smoothX, y: smoothY }}
+        animate={{ scale: isHover ? 3 : 1 }}
+        transition={{ type: "spring", stiffness: 220, damping: 20 }}
         aria-hidden="true"
       />
       <motion.div
