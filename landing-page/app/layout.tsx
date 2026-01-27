@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { CustomCursor } from "@/components/animations/CustomCursor";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="ru">
       <body className={`${inter.variable} antialiased`}>
         {children}
+        <CustomCursor />
       </body>
     </html>
   );
