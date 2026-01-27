@@ -29,14 +29,14 @@ const PROJECTS: readonly Project[] = [
   },
   {
     typeLabel: "E-commerce",
-    name: "StreetWear",
-    description: "Интернет-магазин с AR-примеркой и персонализацией",
+    name: "Artisan",
+    description: "Маркетплейс для ремесленников и дизайнеров",
     gradient: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
   },
   {
     typeLabel: "SaaS платформа",
-    name: "TeamFlow",
-    description: "Система управления проектами для распределённых команд",
+    name: "TeamSync",
+    description: "Инструмент для управления распределёнными командами",
     gradient: "linear-gradient(135deg, #134e5e 0%, #71b280 100%)",
   },
 ] as const;
