@@ -1,5 +1,6 @@
-import { Container } from "@/components/ui/Container";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { TextScramble } from "@/components/animations/TextScramble";
+import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 
 interface Service {
@@ -50,6 +51,7 @@ export function Services({ className }: ServicesProps) {
                   "group border-t border-border py-10 transition-colors",
                   "hover:bg-[linear-gradient(90deg,rgba(200,255,0,0.05)_0%,transparent_100%)]",
                 )}
+                data-hover
               >
                 <div
                   className={cn(
@@ -62,9 +64,7 @@ export function Services({ className }: ServicesProps) {
                   </span>
 
                   <h3 className="text-[clamp(1.5rem,3vw,2.5rem)] font-bold tracking-[-0.02em] transition-colors group-hover:text-accent">
-                    <span className="glitch" data-text={service.name}>
-                      {service.name}
-                    </span>
+                    <TextScramble text={service.name} className="glitch" />
                   </h3>
 
                   <div className="hidden flex-wrap gap-2 lg:flex">
