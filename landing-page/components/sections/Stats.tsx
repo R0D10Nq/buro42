@@ -49,10 +49,15 @@ export function Stats({ className }: StatsProps) {
     const update = (time: number) => {
       const progress = Math.min((time - start) / COUNTER_DURATION, 1);
       const easedProgress = easeOutCubic(progress);
+      const isComplete = progress >= 1;
 
-      setValues(STATS.map((stat) => Math.round(stat.value * easedProgress)));
+      setValues(
+        STATS.map((stat) =>
+          isComplete ? stat.value : Math.floor(stat.value * easedProgress),
+        ),
+      );
 
-      if (progress < 1) {
+      if (!isComplete) {
         rafId = requestAnimationFrame(update);
       }
     };
@@ -72,7 +77,8 @@ export function Stats({ className }: StatsProps) {
             <ScrollReveal key={stat.label} delay={index * 0.06} y={40}>
               <div className="text-center">
                 <div className="text-[clamp(3rem,6vw,5rem)] font-black leading-none tracking-[-0.03em] text-accent">
-                  {values[index]}+
+                  {values[index]}
+                  {values[index] >= stat.value ? "+" : ""}
                 </div>
                 <div className="mt-4 text-sm text-muted md:text-[0.95rem]">
                   {stat.label}
