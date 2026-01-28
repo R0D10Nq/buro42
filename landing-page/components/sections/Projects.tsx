@@ -70,6 +70,7 @@ export function Projects({ className }: ProjectsProps) {
                       ? "aspect-[4/3] md:row-span-2 md:aspect-auto md:min-h-[520px]"
                       : "aspect-[4/3]",
                   )}
+                  data-hover
                 >
                   <div
                     className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-110"
