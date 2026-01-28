@@ -35,9 +35,29 @@ export function BackgroundDecor() {
   const shapeThreeX = useTransform(x, (value) => value * 1.5);
   const shapeThreeY = useTransform(y, (value) => value * 1.5);
 
+  const noiseAnimation = shouldReduceMotion
+    ? { x: 0, y: 0 }
+    : {
+      x: [0, -4, 3, -2, 2, 0],
+      y: [0, 2, -3, 3, -2, 0],
+    };
+
+  const noiseTransition = shouldReduceMotion
+    ? undefined
+    : {
+      duration: 1.2,
+      repeat: Infinity,
+      ease: "linear",
+    };
+
   return (
     <>
-      <div className="noise-overlay" aria-hidden="true" />
+      <motion.div
+        className="noise-overlay"
+        aria-hidden="true"
+        animate={noiseAnimation}
+        transition={noiseTransition}
+      />
       <div className="floating-shapes" aria-hidden="true">
         <motion.span className="floating-shape" style={{ x: shapeOneX, y: shapeOneY }} />
         <motion.span className="floating-shape" style={{ x: shapeTwoX, y: shapeTwoY }} />
