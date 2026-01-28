@@ -1,9 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+
 import { Container } from "@/components/ui/Container";
+import { EASING } from "@/lib/constants/animations";
+import { cn } from "@/lib/utils";
 
 interface NavItem {
   href: string;
@@ -14,18 +17,24 @@ interface HeaderProps {
   className?: string;
 }
 
+const NAV_ITEMS: readonly NavItem[] = [
+  { href: "#services", label: "Услуги" },
+  { href: "#projects", label: "Проекты" },
+  { href: "#process", label: "Процесс" },
+  { href: "#contact", label: "Контакт" },
+] as const;
+
 export function Header({ className }: HeaderProps) {
+  const shouldReduceMotion = useReducedMotion();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navItems = useMemo<NavItem[]>(
-    () => [
-      { href: "#services", label: "Услуги" },
-      { href: "#projects", label: "Проекты" },
-      { href: "#process", label: "Процесс" },
-      { href: "#contact", label: "Контакт" },
-    ],
-    [],
-  );
+  const handleToggleMenu = useCallback(() => {
+    setIsMenuOpen((prev) => !prev);
+  }, []);
+
+  const handleCloseMenu = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
 
   const linkClassName =
     "relative py-1 text-sm font-medium text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent after:transition-[width] after:duration-300 hover:after:w-full";
@@ -46,7 +55,7 @@ export function Header({ className }: HeaderProps) {
         </a>
 
         <nav className="hidden items-center gap-10 md:flex">
-          {navItems.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <a key={item.href} href={item.href} className={linkClassName}>
               {item.label}
             </a>
@@ -58,37 +67,76 @@ export function Header({ className }: HeaderProps) {
           aria-label="Меню"
           aria-expanded={isMenuOpen}
           aria-controls="mobile-menu"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
+          onClick={handleToggleMenu}
           className="flex flex-col gap-1.5 p-2 md:hidden"
         >
-          <span className="h-[2px] w-7 bg-foreground" />
-          <span className="h-[2px] w-7 bg-foreground" />
-          <span className="h-[2px] w-7 bg-foreground" />
+          <motion.span
+            className="h-[2px] w-7 bg-foreground"
+            animate={{
+              rotate: isMenuOpen ? 45 : 0,
+              y: isMenuOpen ? 6 : 0,
+            }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : { duration: 0.2, ease: EASING.easeOut }
+            }
+          />
+          <motion.span
+            className="h-[2px] w-7 bg-foreground"
+            animate={{ opacity: isMenuOpen ? 0 : 1 }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : { duration: 0.2, ease: EASING.easeOut }
+            }
+          />
+          <motion.span
+            className="h-[2px] w-7 bg-foreground"
+            animate={{
+              rotate: isMenuOpen ? -45 : 0,
+              y: isMenuOpen ? -6 : 0,
+            }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : { duration: 0.2, ease: EASING.easeOut }
+            }
+          />
         </button>
       </Container>
 
-      <div
-        id="mobile-menu"
-        className={cn(
-          "md:hidden",
-          isMenuOpen ? "block" : "hidden",
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="mobile-menu"
+            className="fixed inset-0 z-40 bg-background md:hidden"
+            initial={{ opacity: shouldReduceMotion ? 1 : 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: shouldReduceMotion ? 1 : 0 }}
+            transition={
+              shouldReduceMotion
+                ? { duration: 0 }
+                : { duration: 0.25, ease: EASING.easeOut }
+            }
+          >
+            <Container className="flex h-full flex-col items-center justify-center gap-8">
+              <nav className="flex flex-col items-center gap-8 text-lg">
+                {NAV_ITEMS.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={linkClassName}
+                    onClick={handleCloseMenu}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            </Container>
+          </motion.div>
         )}
-      >
-        <Container className="pt-4">
-          <nav className="flex flex-col gap-6">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className={linkClassName}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
-        </Container>
-      </div>
+      </AnimatePresence>
     </header>
   );
 }
